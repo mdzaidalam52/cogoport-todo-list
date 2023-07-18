@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        .navbar {
+            margin-bottom: 40px;
+        }
+        .list-group {
+            margin-top: 50px;
+        }
+        .list-group-item {
+            display: flex;
+            align-items: center;
+        }
+
+        span {
+            justify-self: flex-start;
+            flex-grow: 1;
+        }
+        .btn-danger {
+            justify-self: flex-end;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">To-Do List</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="mb-3">
+            <label for="todo" class="form-label">Add Tasks</label>
+            <input type="text" class="form-control" id="todo" placeholder="Task">
+        </div>
+        <button class="btn btn-primary">Add</button>
+        <ul class="list-group">
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        let todos = []
+
+        fetch("https://jsonplaceholder.typicode.com/todos")
+            .then(result  =>  {
+                return (result.json())
+            })
+            .then(data => {
+                data.forEach(d => {
+                    todos.push({"key": d.id, task: d.title})
+                })
+                refreshTasks()
+            })
+
+        const randomKeyGenerator = () => {
+            let result = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const charactersLength = characters.length;
+            let counter = 0;
+            while (counter < charactersLength) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                counter += 1;
+            }
+            return result;
+        }
+
+        const refreshTasks = () => {
+            todos.forEach(task => {
+                let listGroup = document.getElementsByClassName("list-group")[0]
+                let listItem = document.createElement("li")
+                listItem.classList.add("list-group-item")
+                let spanElement = document.createElement("span")
+                spanElement.innerText = task.task
+                let deleteBtn = document.createElement("button")
+                deleteBtn.innerText = "Delete"
+                deleteBtn.classList.add("btn")
+                deleteBtn.classList.add("btn-danger")
+                listItem.appendChild(spanElement)
+                listItem.appendChild(deleteBtn)
+                listGroup.appendChild(listItem)    
+                deleteBtn.addEventListener('click', () => {
+                    deleteTask(task.key)
+                })   
+            })
+        }
+
+        const deleteTask = (key) => {
+            todos = todos.filter(todo => {
+                return todo.key !== key
+            })
+
+            let listGroup = document.getElementsByClassName("list-group")[0]
+            listGroup.innerHTML = ''
+            refreshTasks()
+        }
+
+        document.getElementsByClassName("btn-primary")[0].addEventListener("click", () => {
+            todos.push({"key": randomKeyGenerator(), "task": document.getElementById("todo").value})
+            let listGroup = document.getElementsByClassName("list-group")[0]
+            listGroup.innerHTML = ""
+            document.getElementById("todo").value = ""
+            refreshTasks()
+        })
+    </script>
+</body>
+</html>
