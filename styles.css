@@ -1,0 +1,87 @@
+body {
+    padding: 30px;
+}
+ul {
+    list-style: none;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(217, 177, 255);
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.task-section {
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    text-align: center;
+}
+
+.subtask-section {
+    text-align: center;
+}
+
+input {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+select {
+    margin-right: 20px;
+}
+
+
+li input {
+    margin: 0;
+}
+
+#addTask {
+    margin-bottom: 50px;
+}
+
+.task {
+    width: 40%;
+}
+
+.dueDate {
+    width: 10%;
+    text-align: center;
+}
+
+.createdDate {
+    width: 10%;
+    text-align: center;
+}
+
+.priority {
+    width: 10%;
+    text-align: center;
+}
+
+.category {
+    width: 10%;
+    text-align: center;
+}
+
+.tags {
+    width: 10%;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 10%;
+}
+
+.buttons button {
+    align-items: center;
+    border: none;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
